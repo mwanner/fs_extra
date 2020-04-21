@@ -1,5 +1,6 @@
 use error::*;
 use std::collections::{HashMap, HashSet};
+use std::convert::From;
 use std::fs::{create_dir, create_dir_all, read_dir, remove_dir_all, Metadata};
 use std::path::{Path, PathBuf};
 use std::time::SystemTime;
@@ -583,11 +584,7 @@ where
         let tp = Path::new(&file).strip_prefix(from)?;
         let path = to.join(&tp);
 
-        let file_options = super::file::CopyOptions {
-            overwrite: options.overwrite,
-            skip_exist: options.skip_exist,
-            buffer_size: options.buffer_size,
-        };
+        let file_options = super::file::CopyOptions::from(options);
         let mut result_copy: Result<u64>;
         let mut work = true;
 
@@ -878,12 +875,7 @@ where
         let file_name = file_name.unwrap();
         to.push(file_name);
 
-        let mut file_options = super::file::CopyOptions {
-            overwrite: options.overwrite,
-            skip_exist: options.skip_exist,
-            buffer_size: options.buffer_size,
-        };
-
+        let mut file_options = super::file::CopyOptions::from(&options);
         if let Some(file_name) = file_name.to_str() {
             info_process.file_name = file_name.to_string();
         } else {
@@ -1073,12 +1065,7 @@ where
         let tp = Path::new(&file).strip_prefix(from)?;
         let path = to.join(&tp);
 
-        let file_options = super::file::CopyOptions {
-            overwrite: options.overwrite,
-            skip_exist: options.skip_exist,
-            buffer_size: options.buffer_size,
-        };
-
+        let file_options = super::file::CopyOptions::from(options);
         let mut result_copy: Result<u64>;
         let mut work = true;
         while work {
@@ -1215,12 +1202,7 @@ where
         let file_name = file_name.unwrap();
         to.push(file_name);
 
-        let mut file_options = super::file::CopyOptions {
-            overwrite: options.overwrite,
-            skip_exist: options.skip_exist,
-            buffer_size: options.buffer_size,
-        };
-
+        let mut file_options = super::file::CopyOptions::from(&options);
         if let Some(file_name) = file_name.to_str() {
             info_process.file_name = file_name.to_string();
         } else {
